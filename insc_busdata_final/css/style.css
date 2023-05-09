@@ -1,0 +1,66 @@
+.circle:hover{
+    stroke: black;
+    stroke-width: 4px;
+  }
+.chartArea {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	min-height: 100vh;
+}
+
+svg {
+    display: block;
+    margin: 0 auto;
+}
+
+.bubbles {
+    stroke-width: 2px;
+    stroke: white;
+  }
+
+.bubbles:hover {
+    stroke: black;
+  }
+
+.tooltip {
+	position: absolute;
+}
+.banner {
+	height: 500px;
+	width: 250px;
+	background-color: #8bf0ba;
+	margin: 50px;
+	border-radius: 10px;
+}
+
+.text-correct {
+	text-align: left;
+	text-indent: 20px;
+	font-size: small;
+	font-family: Arial, Helvetica, sans-serif;
+	padding-bottom: 10px;
+	margin: 20px;
+}
+
+.image-sizing {
+	max-width: 250px;
+	border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
+}
+
+.title {
+	font-size: medium;
+	font-family: Arial, Helvetica, sans-serif;
+	padding-bottom: 10px;
+}
+
+.text-riders {
+	text-align: start;
+	font-size: small;
+	line-height: 2.0;
+	font-family: Arial, Helvetica, sans-serif;
+	padding-bottom: 10px;
+	margin: 20px;
+}

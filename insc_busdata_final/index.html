@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>D3 Project Starter Template</title>
+    <meta charset="UTF-8">
+    <link rel="icon" href="data:;base64,iVBORwOKGO=" />
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>    
+    <script src="js/d3.v6.min.js"></script>
+    <script src="js/main.js"></script>
+    <section class="chartArea">
+        <div class="banner">
+            <img class="image-sizing"src="kat-logo-horz.png" alt="Girl in a jacket">
+            <p class="text-correct">    Serving more than three million passengers last year, KAT operates the public bus system for the city of Knoxville. </p>
+            <p class="text-correct">The bus service is comprised of more than 20 fixed routes, trolleys serving downtown and the university area and transportation for persons with disabilities. </p>
+            <p class="text-correct">KAT has a fleet of state-of-the-art buses and trolleys of various sizes which are wheelchair accessible and bicycle rack equipped. KAT offers a variety of special
+                programs including discounted bus passes, Sports Shuttles (to UT home football games) and active participation in special events. </p>
+        </div>
+        <div id="busriders"></div>
+        <div class="banner">
+            <img class="image-sizing"src="KAT-BUS-HOME.jpg" alt="Girl in a jacket">
+            <h1 class="title">Route Information</h1>
+            <div id="hours" class="text-riders"></div>
+        </div>
+    </section>
+    <div></div>
+    
+
+    <script>
+        const margin = {top: 10, right: 20, bottom: 30, left: 50},
+            width = 500 - margin.left - margin.right,
+            height = 420 - margin.top - margin.bottom;
+        const svg = d3.select("#busriders")
+          .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+        d3.csv("https://raw.githubusercontent.com/bharvey165/map-data/main/KAT_route_data.csv").then( function(data) {
+            console.log(data)
+          const x = d3.scaleLinear()
+            .domain([0, 27000])
+            .range([ 0, width ]);
+          svg.append("g")
+            .attr("transform", `translate(0, ${height})`)
+            .call(d3.axisBottom(x));
+          const y = d3.scaleLinear()
+            .domain([0, 2400])
+            .range([ height, 0]);
+          svg.append("g")
+            .call(d3.axisLeft(y));
+          const z = d3.scaleLinear()
+            .domain([0, 20000])
+            .range([ 4, 40]);
+        var routeColor = d3.scaleOrdinal()
+            .domain(["Sequoyah Hills","Kingston Pike","Western Ave","Beaumont","Cedar Bluff Connector","Sutherland/Bearden","Lakeshore/Lonas Connector","Central Ave/Clinton Hwy","Lincoln Park","Broadway","Millertown","Inskip/Breda Rd","Parkridge","Magnolia Ave.","Dandridge","M.LK.","Burlington","South Knoxville","Chapman Hwy","UT/Ft Sanders Hospitals","University Park"])
+            .range(d3.schemeSet2);
+          const tooltip = d3.select("#busriders")
+            .append("div")
+              .style("opacity", 0)
+              .attr("class", "tooltip")
+              .style("background-color", "black")
+              .style("border-radius", "5px")
+              .style("padding", "10px")
+              .style("color", "white")
+          const showTooltip = function(event, d) {
+            tooltip
+              .transition()
+              .duration(200)
+            tooltip
+              .style("opacity", 1)
+              .html("Route: " + d.Name + "<br>" + "Ridership: " + d.Ridership)
+              .style("left", (event.x) + "px")
+              .style("top", (event.y) + "px")
+              d3.select("#hours").html("Route Name: " + d.Name + "<br>" + "Route Number: " + d.Route + "<br>" + "Miles: " + d.Miles + "<br>" + "Hours: " + d.Hours + "<br>" + "Ridership: " + d.Ridership)
+
+          }
+          const moveTooltip = function(event, d) {
+            tooltip
+              .style("left", (event.x) + "px")
+              .style("top", (event.y) + "px")
+          }
+          const hideTooltip = function(event, d) {
+            tooltip
+              .transition()
+              .duration(200)
+              .style("opacity", 0)
+          }
+          svg.append('g')
+            .selectAll("dot")
+            .data(data)
+            .join("circle")
+              .attr("class", "bubbles")
+              .attr("cx", d => x(d.Miles))
+              .attr("cy", d => y(d.Hours))
+              .attr("r", d => z(d.Ridership))
+              .style("fill", d => routeColor(d.Name))
+            .on("mouseover", showTooltip )
+            .on("mousemove", moveTooltip )
+            .on("mouseleave", hideTooltip )
+
+
+          })
+        </script>
+</body>
+</html>
