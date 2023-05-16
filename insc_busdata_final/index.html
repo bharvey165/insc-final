@@ -9,32 +9,8 @@
 <body>    
     <script src="js/d3.v6.min.js"></script>
     <script src="js/main.js"></script>
-    <script>
-      function openCity(evt, cityName) {
-        var i, tabcontent, tablinks;
 
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-          tabcontent[i].style.display = "none";
-        }
-
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-          tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-
-        document.getElementById(cityName).style.display = "flex";
-        evt.currentTarget.className += " active";
-      }
-    </script>
-
-    <div class="tab">
-      <button class="tablinks" onclick="openCity(event, 'scatterPlot')">Plot</button>
-      <button class="tablinks" onclick="openCity(event, 'circularTree')">Circular Treemap</button>
-      <button class="tablinks" onclick="openCity(event, 'barChart')">Bar Chart</button>
-    </div>
-
-    <section id="scatterPlot" class="chartArea tabcontent">
+    <section id="scatterPlot" class="chartArea">
         <div class="banner">
             <img class="image-sizing"src="kat-logo-horz.png" alt="logo">
             <p class="text-correct">    Serving more than three million passengers last year, KAT operates the public bus system for the city of Knoxville. </p>
@@ -50,7 +26,7 @@
         </div>
     </section>
 
-    <section id="circularTree" class="chartArea tabcontent">
+    <section id="circularTree" class="chartArea">
       <div class="banner">
           <img class="image-sizing"src="FTA_logo.png" alt="fta logo">
           <p class="text-correct">    Streetcar ridership, otherwise known as “Unlinked Passenger Trips,” is the national standard used by the Federal Transit Administration (FTA) for calculating usage on public transportation systems across the county. </p>
@@ -59,12 +35,12 @@
       <div id="riderBubbles"></div>
       <div class="banner">
           <img class="image-sizing"src="KAT-BUS-HOME.jpg" alt="logo">
-          <h1 class="title">Route Information</h1>
+          <h1 class="title"></h1>
           <div id="hours" class="text-riders"></div>
       </div>
     </section>
 
-    <section id="barChart" class="chartArea tabcontent">
+    <section id="barChart" class="chartArea">
       <div class="banner">
           <img class="image-sizing"src="FTA_logo.png" alt="fta logo">
           <p class="text-correct">Congress established the NTD to be the Nation’s primary source for information and statistics on the transit systems of the United States. Statute requires that recipients or beneficiaries of grants from the FTA under the Urbanized Area Formula Program (§5307) or Other than Urbanized Area (Rural) Formula Program (§5311) submit data to the NTD. To account for public transit services not reported to the NTD, APTA expands NTD data by mode in stratified categories of similar systems based on population and other characteristics according to vehicles operated.</p>
@@ -133,6 +109,11 @@
               d3.select("#hours").html("Route Name: " + d.Name + "<br>" + "Route Number: " + d.Route + "<br>" + "Miles: " + d.Miles + "<br>" + "Hours: " + d.Hours + "<br>" + "Ridership: " + d.Ridership)
 
           }
+          svg.append("text")
+            .attr("x", 200)
+            .attr("y",  370 )
+            .style("text-anchor", "middle")
+            .text("Miles");
           const moveTooltip = function(event, d) {
             tooltip
               .style("left", (event.x) + "px")
